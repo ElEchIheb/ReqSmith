@@ -43,7 +43,7 @@ export default function CodeGenModal({ tab, onClose }) {
             {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
-        <div className="h-80 overflow-hidden rounded-md border border-zinc-200 dark:border-forge-border">
+        <div className="editor-shell h-80">
           <Editor value={code} readOnly language="text" />
         </div>
       </div>

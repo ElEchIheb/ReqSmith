@@ -3,6 +3,8 @@ import { useStore } from '../../store/useStore'
 import { Button, statusColor } from '../ui'
 import Editor from '../Editor'
 import JsonTree from './JsonTree'
+import EmptyState, { AnvilIcon } from '../EmptyState'
+import SlidingTabs from '../SlidingTabs'
 
 const TABS = ['Pretty', 'Raw', 'Preview', 'Headers', 'Cookies']
 
@@ -56,14 +58,18 @@ export default function ResponseViewer({ tab }) {
   const res = tab.response
   if (!res) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 text-sm text-zinc-500 dark:text-forge-muted">
+      <div className="flex h-full items-center justify-center">
         {tab.sending ? (
-          <>
-            <span className="animate-hammer text-2xl">🔨</span>
+          <div className="flex flex-col items-center gap-3 text-sm text-zinc-500 dark:text-forge-muted">
+            <span className="h-3 w-3 animate-heartbeat rounded-full bg-forge-accent shadow-[0_0_12px_2px_rgba(232,89,12,0.6)]" />
             Forging request…
-          </>
+          </div>
         ) : (
-          'Send a request to see the response.'
+          <EmptyState
+            icon={<AnvilIcon className="h-16 w-16" />}
+            title="No response yet"
+            subtitle="Send a request to forge a response."
+          />
         )}
       </div>
     )
@@ -170,24 +176,16 @@ export default function ResponseViewer({ tab }) {
       )}
 
       {/* Response tabs */}
-      <div className="flex items-center gap-1 border-b border-zinc-200 px-2 dark:border-forge-border">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setActive(t)}
-            className={`px-3 py-2 text-sm transition-colors ${
-              active === t
-                ? 'border-b-2 border-forge-accent text-zinc-900 dark:text-forge-text'
-                : 'border-b-2 border-transparent text-zinc-500 hover:text-zinc-800 dark:text-forge-muted dark:hover:text-forge-text'
-            }`}
-          >
-            {t}
-            {t === 'Cookies' && cookies.length > 0 && (
-              <span className="ml-1 text-xs text-forge-accent">{cookies.length}</span>
-            )}
-          </button>
-        ))}
-      </div>
+      <SlidingTabs
+        className="border-b border-zinc-200 px-2 dark:border-forge-border"
+        items={TABS.map((t) => ({
+          id: t,
+          label: t,
+          badge: t === 'Cookies' && cookies.length > 0 ? cookies.length : null,
+        }))}
+        active={active}
+        onChange={setActive}
+      />
 
       <div className="min-h-0 flex-1 overflow-auto">
         {active === 'Pretty' &&

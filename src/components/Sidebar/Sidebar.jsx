@@ -3,6 +3,7 @@ import { useStore } from '../../store/useStore'
 import { newRequest } from '../../lib/factories'
 import { statusColor, IconButton, MethodBadge } from '../ui'
 import TreeNode from './TreeNode'
+import EmptyState, { FolderForgeIcon, AnvilIcon } from '../EmptyState'
 import {
   importPostmanCollection,
   exportPostmanCollection,
@@ -76,7 +77,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-zinc-100 dark:bg-forge-panel">
+    <div className="flex h-full flex-col bg-zinc-100 dark:bg-forge-panel dark:bg-panel-sheen">
       {/* View toggle */}
       <div className="flex items-center gap-1 border-b border-zinc-200 p-2 dark:border-forge-border">
         <button
@@ -140,9 +141,12 @@ export default function Sidebar() {
             </div>
 
             {collections.length === 0 && (
-              <p className="px-1 py-4 text-center text-xs text-zinc-500">
-                No collections yet. Create one or import a Postman collection.
-              </p>
+              <EmptyState
+                className="min-h-[45vh]"
+                icon={<FolderForgeIcon className="h-14 w-14" />}
+                title="No collections yet"
+                subtitle="Create one or import a Postman collection to get started."
+              />
             )}
 
             {collections.map((c) => {
@@ -213,9 +217,12 @@ export default function Sidebar() {
               </button>
             )}
             {history.length === 0 && (
-              <p className="px-1 py-4 text-center text-xs text-zinc-500">
-                No requests yet.
-              </p>
+              <EmptyState
+                className="min-h-[45vh]"
+                icon={<AnvilIcon className="h-14 w-14" />}
+                title="No history yet"
+                subtitle="Requests you send will appear here."
+              />
             )}
             {history
               .filter(

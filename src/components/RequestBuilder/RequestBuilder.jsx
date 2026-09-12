@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useStore } from '../../store/useStore'
-import { Button, Select, methodColor } from '../ui'
+import { Button, methodColor, methodTint } from '../ui'
+import Dropdown from '../Dropdown'
 import KeyValueTable from './KeyValueTable'
 import BodyTab from './BodyTab'
 import AuthTab from './AuthTab'
 import TestsTab from './TestsTab'
 import Editor from '../Editor'
+import SlidingTabs from '../SlidingTabs'
 
 const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 const SUBTABS = ['Params', 'Headers', 'Body', 'Auth', 'Pre-request', 'Tests']
@@ -42,33 +44,47 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
 
   return (
     <div className="flex h-full flex-col bg-white dark:bg-forge-bg">
-      {/* URL bar */}
+      {/* URL bar — method + URL merged into one cohesive control */}
       <div className="flex items-center gap-2 border-b border-zinc-200 p-3 dark:border-forge-border">
-        <Select
-          value={d.method}
-          onChange={(e) => patch({ method: e.target.value })}
-          className={`font-mono font-semibold ${methodColor(d.method)}`}
-        >
-          {METHODS.map((m) => (
-            <option key={m} value={m} className="text-zinc-800 dark:text-forge-text">
-              {m}
-            </option>
-          ))}
-        </Select>
-
-        <input
-          value={d.url}
-          onChange={(e) => patch({ url: e.target.value })}
-          placeholder="https://api.example.com/{{path}}"
-          spellCheck={false}
-          className="flex-1 rounded-[5px] border border-zinc-300 bg-white px-3 py-1.5 font-mono text-sm outline-none focus:border-forge-accent dark:border-forge-border dark:bg-forge-input dark:text-forge-text dark:placeholder:text-forge-muted/60"
-          onKeyDown={(e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-              e.preventDefault()
-              sendActiveRequest()
-            }
-          }}
-        />
+        <div className="ember-focus flex flex-1 items-center rounded-[6px] border border-zinc-300 bg-white dark:border-forge-border dark:bg-forge-input">
+          <Dropdown
+            value={d.method}
+            onChange={(m) => patch({ method: m })}
+            options={METHODS.map((m) => ({
+              value: m,
+              label: m,
+              labelClassName: `font-mono font-semibold ${methodColor(m)}`,
+            }))}
+            triggerClassName={`flex items-center gap-1.5 self-stretch rounded-l-[5px] border-r border-zinc-300 px-3 font-mono text-sm font-semibold transition-colors dark:border-forge-border ${methodTint(
+              d.method
+            )}`}
+            renderTrigger={(cur, open) => (
+              <>
+                <span>{d.method}</span>
+                <span
+                  className={`text-[10px] opacity-60 transition-transform duration-150 ${
+                    open ? 'rotate-180' : ''
+                  }`}
+                >
+                  ▾
+                </span>
+              </>
+            )}
+          />
+          <input
+            value={d.url}
+            onChange={(e) => patch({ url: e.target.value })}
+            placeholder="https://api.example.com/{{path}}"
+            spellCheck={false}
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 font-mono text-[14px] outline-none dark:text-forge-text dark:placeholder:text-forge-muted/60"
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+                e.preventDefault()
+                sendActiveRequest()
+              }
+            }}
+          />
+        </div>
 
         <Button
           variant="primary"
@@ -77,14 +93,14 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
         >
           {tab.sending ? (
             <>
-              <span className="inline-block animate-hammer">🔨</span>
-              Forging…
+              <span className="h-2 w-2 animate-heartbeat rounded-full bg-white shadow-[0_0_8px_1px_rgba(255,255,255,0.7)]" />
+              Sending…
             </>
           ) : (
             'Send'
           )}
         </Button>
-        <Button onClick={() => onSave(tab)} title="Ctrl/Cmd+S">
+        <Button variant="secondary" onClick={() => onSave(tab)} title="Ctrl/Cmd+S">
           Save{tab.dirty ? ' •' : ''}
         </Button>
         <Button
@@ -98,24 +114,12 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
       </div>
 
       {/* Sub-tabs */}
-      <div className="flex items-center gap-1 border-b border-zinc-200 px-2 dark:border-forge-border">
-        {SUBTABS.map((name) => (
-          <button
-            key={name}
-            onClick={() => setSub(name)}
-            className={`relative px-3 py-2 text-sm transition-colors ${
-              sub === name
-                ? 'border-b-2 border-forge-accent text-zinc-900 dark:text-forge-text'
-                : 'border-b-2 border-transparent text-zinc-500 hover:text-zinc-800 dark:text-forge-muted dark:hover:text-forge-text'
-            }`}
-          >
-            {name}
-            {badge(name) && (
-              <span className="ml-1 text-xs text-forge-accent">{badge(name)}</span>
-            )}
-          </button>
-        ))}
-      </div>
+      <SlidingTabs
+        className="border-b border-zinc-200 px-2 dark:border-forge-border"
+        items={SUBTABS.map((name) => ({ id: name, label: name, badge: badge(name) }))}
+        active={sub}
+        onChange={setSub}
+      />
 
       {/* Sub-tab body */}
       <div className="min-h-0 flex-1 overflow-auto">
@@ -152,7 +156,7 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
               dynamic variable, and read current values from{' '}
               <code className="text-forge-accent">env</code>.
             </p>
-            <div className="min-h-[160px] flex-1 overflow-hidden rounded-md border border-zinc-200 dark:border-forge-border">
+            <div className="editor-shell min-h-[160px] flex-1">
               <Editor
                 value={d.preRequestScript}
                 onChange={(preRequestScript) => patch({ preRequestScript })}

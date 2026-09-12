@@ -71,7 +71,7 @@ export default function BodyTab({ body, onChange }) {
         )}
 
         {b.mode === 'raw' && (
-          <div className="h-full min-h-[160px] overflow-hidden rounded-md border border-zinc-200 dark:border-forge-border">
+          <div className="editor-shell h-full min-h-[160px]">
             <Editor
               value={b.raw}
               onChange={(raw) => set({ raw })}

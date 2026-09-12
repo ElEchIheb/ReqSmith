@@ -123,7 +123,7 @@ export default function TestsTab({ tests, onChange }) {
           <code className="text-forge-accent">assert(cond, msg)</code>,{' '}
           <code className="text-forge-accent">expect(x).toBe(y)</code>.
         </p>
-        <div className="h-40 overflow-hidden rounded-md border border-zinc-200 dark:border-forge-border">
+        <div className="editor-shell h-40">
           <Editor
             value={t.script}
             onChange={(script) => onChange({ ...t, script })}

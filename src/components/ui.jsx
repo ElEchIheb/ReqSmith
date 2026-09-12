@@ -7,7 +7,9 @@ export function Button({ variant = 'default', className = '', ...props }) {
     default:
       'bg-zinc-200 text-zinc-800 hover:bg-zinc-300 dark:bg-forge-hover dark:text-forge-text dark:hover:bg-[#2a2a33]',
     primary:
-      'bg-forge-accent text-white hover:bg-forge-accent2 font-semibold shadow-[0_0_0_1px_rgba(232,89,12,0.4)]',
+      'bg-forge-accent text-white hover:bg-forge-accent2 font-semibold shadow-[0_2px_10px_-2px_rgba(232,89,12,0.5)]',
+    secondary:
+      'border border-zinc-300 bg-transparent text-zinc-600 hover:border-forge-accent/50 hover:text-zinc-900 dark:border-forge-border dark:text-forge-muted dark:hover:border-forge-accent/50 dark:hover:text-forge-text',
     ghost:
       'bg-transparent text-zinc-600 hover:bg-zinc-200 dark:text-forge-muted dark:hover:bg-forge-hover dark:hover:text-forge-text',
     danger: 'bg-transparent text-err hover:bg-err/10',
@@ -72,6 +74,20 @@ const METHOD_BADGE = {
 
 export function methodColor(method) {
   return METHOD_HUE[(method || '').toUpperCase()] || 'text-method-other'
+}
+
+// Tinted background + text for the method control merged into the URL bar.
+const METHOD_TINT = {
+  GET: 'bg-method-get/10 text-method-get',
+  POST: 'bg-method-post/10 text-method-post',
+  PUT: 'bg-method-put/10 text-method-put',
+  PATCH: 'bg-method-patch/10 text-method-patch',
+  DELETE: 'bg-method-delete/10 text-method-delete',
+  HEAD: 'bg-method-other/10 text-method-other',
+  OPTIONS: 'bg-method-other/10 text-method-other',
+}
+export function methodTint(method) {
+  return METHOD_TINT[(method || '').toUpperCase()] || METHOD_TINT.OPTIONS
 }
 
 // Squared badge for tree/tabs/history.

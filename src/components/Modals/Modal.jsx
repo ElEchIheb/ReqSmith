@@ -13,7 +13,7 @@ export default function Modal({ title, onClose, children, width = 'max-w-2xl' })
       onClick={onClose}
     >
       <div
-        className={`w-full ${width} overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-2xl dark:border-forge-border dark:bg-forge-panel`}
+        className={`menu-pop w-full ${width} overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-2xl dark:border-forge-border dark:bg-forge-elevated dark:shadow-ember`}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (

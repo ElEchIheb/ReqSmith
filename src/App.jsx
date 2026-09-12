@@ -9,7 +9,8 @@ import CommandPalette from './components/Modals/CommandPalette'
 import CodeGenModal from './components/Modals/CodeGenModal'
 import EnvironmentModal from './components/Modals/EnvironmentModal'
 import SaveModal from './components/Modals/SaveModal'
-import { Select, IconButton } from './components/ui'
+import Dropdown from './components/Dropdown'
+import { IconButton } from './components/ui'
 
 export default function App() {
   const theme = useStore((s) => s.theme)
@@ -68,8 +69,8 @@ export default function App() {
 
   return (
     <div className="flex h-screen flex-col bg-white font-sans text-zinc-800 dark:bg-forge-bg dark:text-forge-text">
-      {/* Top bar */}
-      <header className="flex items-center gap-3 border-b border-zinc-200 bg-zinc-50 px-4 py-2 dark:border-forge-border dark:bg-forge-panel">
+      {/* Top bar — reads as a light source, not a flat strip */}
+      <header className="flex items-center gap-3 border-b border-zinc-200 bg-zinc-50 px-4 py-2.5 dark:border-forge-border dark:bg-forge-panel dark:bg-topbar-glow">
         <div className="flex items-center gap-2.5">
           {/* Logo — the strongest anchor, with a subtle ember glow behind it */}
           <span className="relative flex h-8 w-8 items-center justify-center">
@@ -97,18 +98,33 @@ export default function App() {
             </kbd>
           </button>
 
-          <Select
+          <Dropdown
             value={activeEnvId || ''}
-            onChange={(e) => setActiveEnv(e.target.value || null)}
-            className="py-1"
-          >
-            <option value="">No Environment</option>
-            {environments.map((env) => (
-              <option key={env.id} value={env.id}>
-                {env.name}
-              </option>
-            ))}
-          </Select>
+            onChange={(v) => setActiveEnv(v || null)}
+            align="right"
+            options={[
+              { value: '', label: 'No Environment' },
+              ...environments.map((env) => ({ value: env.id, label: env.name })),
+            ]}
+            triggerClassName="flex items-center gap-2 rounded-[5px] border border-zinc-300 bg-white px-2.5 py-1.5 text-sm text-zinc-800 transition-colors hover:border-forge-accent/60 dark:border-forge-border dark:bg-forge-input dark:text-forge-text"
+            renderTrigger={(cur, open) => (
+              <>
+                {activeEnvId && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-forge-accent shadow-[0_0_6px_1px_rgba(232,89,12,0.7)]" />
+                )}
+                <span className={activeEnvId ? 'font-medium text-forge-accent' : ''}>
+                  {cur?.label || 'No Environment'}
+                </span>
+                <span
+                  className={`text-forge-muted transition-transform duration-150 ${
+                    open ? 'rotate-180' : ''
+                  }`}
+                >
+                  ▾
+                </span>
+              </>
+            )}
+          />
 
           <IconButton title="Environments & Variables" onClick={() => setEnvModal(true)}>
             ⚙
@@ -128,7 +144,7 @@ export default function App() {
           <Panel defaultSize={22} minSize={14} maxSize={40}>
             <Sidebar />
           </Panel>
-          <PanelResizeHandle className="w-px bg-zinc-200 transition-colors hover:bg-forge-accent dark:bg-forge-border" />
+          <PanelResizeHandle className="group relative w-px bg-zinc-200 hover:bg-forge-accent hover:shadow-[0_0_10px_1px_rgba(232,89,12,0.5)] dark:bg-forge-border" />
           <Panel defaultSize={78}>
             <div className="flex h-full flex-col">
               <TabBar />
@@ -141,7 +157,7 @@ export default function App() {
                       onOpenCodeGen={setCodeGenTab}
                     />
                   </Panel>
-                  <PanelResizeHandle className="h-px bg-zinc-200 transition-colors hover:bg-forge-accent dark:bg-forge-border" />
+                  <PanelResizeHandle className="h-px bg-zinc-200 hover:bg-forge-accent hover:shadow-[0_0_10px_1px_rgba(232,89,12,0.5)] dark:bg-forge-border" />
                   <Panel defaultSize={50} minSize={15}>
                     <ResponseViewer tab={activeTab} />
                   </Panel>
