@@ -18,10 +18,10 @@ export default function SlidingTabs({ items, active, onChange, className = '' })
           key={it.id}
           ref={(el) => (btnRefs.current[it.id] = el)}
           onClick={() => onChange(it.id)}
-          className={`px-3 py-2 text-[13px] font-medium transition-colors ${
+          className={`px-3 py-2 text-[13px] transition-colors ${
             active === it.id
-              ? 'text-zinc-900 dark:text-forge-text'
-              : 'text-zinc-500 hover:text-zinc-800 dark:text-forge-muted dark:hover:text-forge-text'
+              ? 'font-semibold text-zinc-900 dark:text-forge-text'
+              : 'font-medium text-zinc-500 hover:text-zinc-800 dark:text-forge-muted dark:hover:text-forge-text'
           }`}
         >
           {it.label}

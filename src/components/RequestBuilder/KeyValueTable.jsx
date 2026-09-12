@@ -55,10 +55,10 @@ export default function KeyValueTable({
       )}
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs text-zinc-500 dark:border-forge-border dark:bg-forge-panel dark:text-forge-muted">
+          <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:border-forge-border dark:bg-forge-panel dark:text-forge-muted">
             <th className="w-8 px-2 py-1.5"></th>
-            <th className="px-2 py-1.5 font-medium">Key</th>
-            <th className="px-2 py-1.5 font-medium">Value</th>
+            <th className="px-2 py-1.5">Key</th>
+            <th className="px-2 py-1.5">Value</th>
             <th className="w-8"></th>
           </tr>
         </thead>

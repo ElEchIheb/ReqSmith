@@ -23,7 +23,7 @@ export default function TabBar() {
             }`}
           >
             {active && (
-              <span className="absolute inset-x-0 top-0 h-0.5 bg-forge-accent" />
+              <span className="grad-underline absolute inset-x-0 bottom-0 h-0.5" />
             )}
             <MethodBadge method={t.draft.method} className="min-w-[38px]" />
             <span className="truncate">

@@ -35,7 +35,7 @@ export default function ResponseViewer({ tab }) {
   // Error state (network/CORS)
   if (tab.error) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+      <div className="panel-surface flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
         <div className="text-2xl">⚠️</div>
         <p className="max-w-md text-sm text-err">{tab.error}</p>
         {tab.corsLike && (
@@ -58,7 +58,7 @@ export default function ResponseViewer({ tab }) {
   const res = tab.response
   if (!res) {
     return (
-      <div className="flex h-full items-center justify-center">
+      <div className="panel-surface flex h-full items-center justify-center">
         {tab.sending ? (
           <div className="flex flex-col items-center gap-3 text-sm text-zinc-500 dark:text-forge-muted">
             <span className="h-3 w-3 animate-heartbeat rounded-full bg-forge-accent shadow-[0_0_12px_2px_rgba(232,89,12,0.6)]" />
@@ -110,7 +110,7 @@ export default function ResponseViewer({ tab }) {
           : 'bg-forge-hover'
 
   return (
-    <div className="flex h-full flex-col bg-white dark:bg-forge-bg">
+    <div className="panel-surface flex h-full flex-col">
       {/* Status bar */}
       <div className="flex flex-wrap items-center gap-4 border-b border-zinc-200 px-3 py-2 text-sm dark:border-forge-border">
         {/* Hot-stamp: keyed so it re-animates on every new response */}

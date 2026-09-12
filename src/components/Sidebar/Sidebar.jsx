@@ -77,7 +77,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-zinc-100 dark:bg-forge-panel dark:bg-panel-sheen">
+    <div className="panel-surface flex h-full flex-col">
       {/* View toggle */}
       <div className="flex items-center gap-1 border-b border-zinc-200 p-2 dark:border-forge-border">
         <button

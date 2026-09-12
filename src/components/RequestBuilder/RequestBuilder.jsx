@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useStore } from '../../store/useStore'
-import { Button, methodColor, methodTint } from '../ui'
+import { Button, methodColor, methodBarStyle } from '../ui'
 import Dropdown from '../Dropdown'
 import KeyValueTable from './KeyValueTable'
 import BodyTab from './BodyTab'
@@ -43,10 +43,10 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
   }
 
   return (
-    <div className="flex h-full flex-col bg-white dark:bg-forge-bg">
+    <div className="panel-surface flex h-full flex-col">
       {/* URL bar — method + URL merged into one cohesive control */}
       <div className="flex items-center gap-2 border-b border-zinc-200 p-3 dark:border-forge-border">
-        <div className="ember-focus flex flex-1 items-center rounded-[6px] border border-zinc-300 bg-white dark:border-forge-border dark:bg-forge-input">
+        <div className="url-bar-container flex flex-1 items-center">
           <Dropdown
             value={d.method}
             onChange={(m) => patch({ method: m })}
@@ -55,9 +55,8 @@ export default function RequestBuilder({ tab, onSave, onOpenCodeGen }) {
               label: m,
               labelClassName: `font-mono font-semibold ${methodColor(m)}`,
             }))}
-            triggerClassName={`flex items-center gap-1.5 self-stretch rounded-l-[5px] border-r border-zinc-300 px-3 font-mono text-sm font-semibold transition-colors dark:border-forge-border ${methodTint(
-              d.method
-            )}`}
+            triggerStyle={methodBarStyle(d.method)}
+            triggerClassName="flex items-center gap-1.5 self-stretch rounded-l-[7px] border-r border-zinc-300 px-3 font-mono text-sm font-semibold dark:border-forge-border"
             renderTrigger={(cur, open) => (
               <>
                 <span>{d.method}</span>

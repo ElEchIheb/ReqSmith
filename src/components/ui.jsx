@@ -90,6 +90,21 @@ export function methodTint(method) {
   return METHOD_TINT[(method || '').toUpperCase()] || METHOD_TINT.OPTIONS
 }
 
+// Solid tinted background + text for the method segment merged into the URL bar
+// (matches each method's badge hue over a deep tint).
+const METHOD_BAR = {
+  GET: { backgroundColor: '#0F2A1E', color: '#3DD68C' },
+  POST: { backgroundColor: '#2A1608', color: '#E8590C' },
+  PUT: { backgroundColor: '#2A2410', color: '#F5C451' },
+  PATCH: { backgroundColor: '#1E1630', color: '#B084F5' },
+  DELETE: { backgroundColor: '#2A1216', color: '#F2545B' },
+  HEAD: { backgroundColor: '#1E1E22', color: '#8B8B93' },
+  OPTIONS: { backgroundColor: '#1E1E22', color: '#8B8B93' },
+}
+export function methodBarStyle(method) {
+  return METHOD_BAR[(method || '').toUpperCase()] || METHOD_BAR.OPTIONS
+}
+
 // Squared badge for tree/tabs/history.
 export function MethodBadge({ method, className = '' }) {
   const m = (method || 'GET').toUpperCase()

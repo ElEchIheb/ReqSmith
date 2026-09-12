@@ -47,7 +47,7 @@ export default function EmptyState({ icon, title, subtitle, className = '' }) {
     >
       <div className="text-forge-accent/25 dark:text-forge-accent/30">{icon}</div>
       <div className="space-y-1">
-        <p className="text-sm font-medium text-zinc-600 dark:text-forge-text/80">
+        <p className="text-sm font-semibold text-zinc-600 dark:text-forge-text/80">
           {title}
         </p>
         {subtitle && (

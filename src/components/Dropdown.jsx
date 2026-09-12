@@ -8,6 +8,7 @@ export default function Dropdown({
   options,
   renderTrigger,
   triggerClassName = '',
+  triggerStyle,
   align = 'left',
   menuClassName = '',
 }) {
@@ -36,12 +37,13 @@ export default function Dropdown({
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={triggerClassName}
+        style={triggerStyle}
       >
         {renderTrigger(current, open)}
       </button>
       {open && (
         <div
-          className={`menu-pop absolute z-40 mt-1 max-h-72 overflow-auto rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-forge-border dark:bg-forge-elevated dark:shadow-ember ${
+          className={`elevated-surface menu-pop absolute z-40 mt-1 max-h-72 overflow-auto rounded-lg border border-zinc-200 py-1 dark:border-forge-border ${
             align === 'right' ? 'right-0' : 'left-0'
           } ${menuClassName}`}
         >

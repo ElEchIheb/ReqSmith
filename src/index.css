@@ -26,15 +26,51 @@ body {
   border-radius: 2px;
 }
 
-/* Focus glow for the primary inputs (URL bar, search). Plain CSS so it doesn't
-   depend on @apply resolving custom utilities. */
-.ember-focus {
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+/* --- Panel depth: a real top-to-bottom lightening, not a flat fill --- */
+.panel-surface {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
 }
-.ember-focus:focus-within,
-.ember-focus:focus {
-  border-color: rgba(232, 89, 12, 0.7) !important;
-  box-shadow: 0 0 0 1px rgba(232, 89, 12, 0.55), 0 0 18px -3px rgba(232, 89, 12, 0.38);
+.dark .panel-surface {
+  background: linear-gradient(180deg, #1a1a1e 0%, #131316 100%);
+  border: 1px solid #2a2a2f;
+}
+
+/* Elevated surfaces (dropdowns, modals): depth + faint ember bloom. */
+.elevated-surface {
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.dark .elevated-surface {
+  background: #1b1b1f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 32px rgba(232, 89, 12, 0.06);
+}
+
+/* --- Merged URL bar: one continuous control, gradient border on focus --- */
+.url-bar-container {
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  background: #ffffff;
+  transition: box-shadow 0.15s ease;
+}
+.dark .url-bar-container {
+  border: 1px solid #2a2a2f;
+  background: #131316;
+}
+.dark .url-bar-container:focus-within {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(90deg, #e8590c 0%, rgba(232, 89, 12, 0) 70%) border-box;
+  box-shadow: 0 0 18px -6px rgba(232, 89, 12, 0.4);
+}
+.url-bar-container:focus-within {
+  box-shadow: 0 0 0 1px rgba(232, 89, 12, 0.4);
+}
+
+/* 2px gradient underline for the active browser-style tab. */
+.grad-underline {
+  background: linear-gradient(90deg, #e8590c 0%, rgba(232, 89, 12, 0.12) 75%, transparent 100%);
 }
 
 /* Dropdown open animation: fade + slight scale-up. */

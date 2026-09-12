@@ -78,10 +78,10 @@ export default function App() {
             <span className="relative text-xl">🔨</span>
           </span>
           <div className="leading-tight">
-            <div className="text-[15px] font-bold tracking-tight">
+            <div className="text-[15px] font-semibold tracking-tight">
               Req<span className="text-forge-accent">Smith</span>
             </div>
-            <div className="hidden text-[10px] text-zinc-500 dark:text-forge-muted sm:block">
+            <div className="hidden text-[11px] text-zinc-500 dark:text-forge-muted sm:block">
               Craft every request, forge every test.
             </div>
           </div>

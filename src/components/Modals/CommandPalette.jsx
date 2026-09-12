@@ -70,7 +70,7 @@ export default function CommandPalette({ onClose }) {
       onClick={onClose}
     >
       <div
-        className="menu-pop w-full max-w-xl overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-2xl dark:border-forge-border dark:bg-forge-elevated dark:shadow-ember"
+        className="elevated-surface menu-pop w-full max-w-xl overflow-hidden rounded-xl border border-zinc-200 dark:border-forge-border"
         onClick={(e) => e.stopPropagation()}
       >
         <input
