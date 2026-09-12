@@ -1,35 +1,27 @@
-import CodeMirror from '@uiw/react-codemirror'
-import { json } from '@codemirror/lang-json'
-import { useStore } from '../store/useStore'
+import { lazy, Suspense } from 'react'
 
-// Thin CodeMirror wrapper used for body editing and response viewing.
-export default function Editor({
-  value,
-  onChange,
-  language = 'json',
-  readOnly = false,
-  placeholder = '',
-  height = '100%',
-}) {
-  const theme = useStore((s) => s.theme)
-  const extensions = language === 'json' ? [json()] : []
+// Code-split boundary: CodeMirror (and its language modes) live in EditorImpl,
+// which is only fetched the first time an editor is actually rendered — e.g.
+// opening the Body/raw tab, the Tests script, or viewing a raw response. Keeps
+// CodeMirror out of the initial page load.
+const EditorImpl = lazy(() => import('./EditorImpl'))
 
+function Fallback({ value }) {
   return (
-    <CodeMirror
-      value={value ?? ''}
-      height={height}
-      theme={theme === 'dark' ? 'dark' : 'light'}
-      extensions={extensions}
-      editable={!readOnly}
-      readOnly={readOnly}
-      placeholder={placeholder}
-      basicSetup={{
-        lineNumbers: true,
-        highlightActiveLine: !readOnly,
-        foldGutter: true,
-        autocompletion: false,
-      }}
-      onChange={(val) => onChange && onChange(val)}
-    />
+    <div className="h-full w-full overflow-auto bg-white p-2 font-mono text-[13px] text-zinc-500 dark:bg-forge-input dark:text-forge-muted">
+      {value ? (
+        <pre className="whitespace-pre-wrap break-words">{value}</pre>
+      ) : (
+        'Loading editor…'
+      )}
+    </div>
+  )
+}
+
+export default function Editor(props) {
+  return (
+    <Suspense fallback={<Fallback value={props.value} />}>
+      <EditorImpl {...props} />
+    </Suspense>
   )
 }
